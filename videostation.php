@@ -5,9 +5,8 @@
 require __DIR__.'/vendor/autoload.php';
 
 use Symfony\Component\Console\Application;
+use VideoStation\Command\StatusCommand;
 
 $application = new Application();
-
-// ... register commands
-
+$application->add(new StatusCommand());
 $application->run();
