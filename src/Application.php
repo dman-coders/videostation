@@ -5,6 +5,7 @@ namespace VideoStation;
 
 use VideoStation\Service\Config;
 use Symfony\Component\Console\Application as ParentApplication;
+#use Symfony\Bundle\FrameworkBundle\Console\Application as ParentApplication;
 use Symfony\Component\Console\Command\Command as ConsoleCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputDefinition;
@@ -19,15 +20,15 @@ use Symfony\Component\Console\Terminal;
 class Application extends ParentApplication {
 
   /** @var Config */
-  protected $cliConfig;
+  protected $config;
 
   /**
    * {@inheritdoc}
    */
   public function __construct() {
-    $this->cliConfig = new Config();
-    $this->envPrefix = $this->cliConfig->get('application.env_prefix');
-    parent::__construct($this->cliConfig->get('application.name'), $this->cliConfig->getVersion());
+    $this->config = new Config();
+    $this->envPrefix = $this->config->get('application.env_prefix');
+    parent::__construct($this->config->get('application.name'), $this->config->getVersion());
     $this->addCommands($this->getCommands());
   }
 
@@ -44,5 +45,19 @@ class Application extends ParentApplication {
       new Command\StatusCommand(),
       ];
     return $commands;
+  }
+
+  /**
+   * Return either the applications config object or a requested key value.
+   *
+   * @param null $key
+   *
+   * @return array|bool|string|\VideoStation\Service\Config|null
+   */
+  public function getConfig($key = NULL) {
+    if (empty($key)) {
+      return $this->config;
+    }
+    return $this->config->get($key);
   }
 }
