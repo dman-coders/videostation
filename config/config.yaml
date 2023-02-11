@@ -1,0 +1,41 @@
+## CLI configuration
+##
+## Some keys can be overridden by environment variables and/or in the user config file.
+## See comments on each key.
+##
+
+# Metadata about the CLI application itself.
+application:
+  name: 'VideoStation CLI'
+  slug: 'videostation-cli'
+  version: '0.0'
+
+  executable: 'videostation'
+  user_config_dir: '.videostation'
+
+  # A directory (relative to the home directory) where the CLI can write
+  # user-specific files, for storing state, logs, credentials, etc.
+  # This can be overridden in the user config file.
+  writable_user_dir: '.videostation'
+
+  # These configs can be overridden by using prefixed env vars such as
+  # `VS.debug=true`. Define the prefix here.
+  env_prefix: 'VS.'
+
+# Configuration for working with projects locally.
+local:
+  local_dir: '.videostation/local'
+  archive_dir: '.videostation/archives'
+  search_dirs:
+    - '/var/downloads'
+    - '/var/favorites'
+
+  # The default timeout for API requests, in seconds.
+  # Overridden by {application.env_prefix}DEFAULT_TIMEOUT env var.
+  default_timeout: 30
+
+  # Overridden by {application.env_prefix}DEBUG env var.
+  debug: false
+
+  # Overridden by {application.env_prefix}DISABLE_CACHE env var.
+  disable_cache: false

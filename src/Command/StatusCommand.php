@@ -5,6 +5,7 @@ namespace VideoStation\Command;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use VideoStation\Service\Config;
 
 class StatusCommand extends Command {
 
@@ -19,14 +20,24 @@ class StatusCommand extends Command {
   }
 
   protected function execute(InputInterface $input, OutputInterface $output): int {
-    // ... put here the code to display status
-    $section1 = $output->section();
-    $section2 = $output->section();
 
-    $section1->writeln('Hello');
-    $section2->writeln('World!');
+    $this->config = new Config();
+
+    $section1 = $output->section();
+
+    $section1->writeln($this->config->get('application.name') . ':' . $this->config->get('application.version'));
+
+    $application = $output->section();
+    foreach ($this->config->get('application') as $key => $value) {
+      // Use var_export in case some values are structs;
+      $application->writeln('  ' . $key . ': ' . var_export($value, 1));
+    }
+
+    $local = $output->section();
+    foreach ($this->config->get('local') as $key => $value) {
+      $local->writeln('  ' . $key . ': ' . var_export($value, 1));
+    }
 
     return Command::SUCCESS;
-    // return Command::FAILURE;
   }
 }

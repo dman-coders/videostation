@@ -5,9 +5,11 @@
     "require": {
         "symfony/console": "^5.3",
         "rxx/vlc-telnet": "^1.0",
-        "symfony/config": "^5.3"
+        "symfony/config": "^5.3",
+        "symfony/yaml": "^6.0"
     },
     "autoload": {
+        "files": ["constants.php"],
         "psr-4": {
             "VideoStation\\": "src"
         }
